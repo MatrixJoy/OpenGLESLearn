@@ -7,4 +7,4 @@ package catnemo.top.opengleslearn.entity
  * @since 2018/12/19
  *
  */
-data class Item(val name: String, val scheme: String)
+data class Item(val name: String, val shape: Int)
