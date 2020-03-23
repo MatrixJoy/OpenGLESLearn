@@ -1,41 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-    <android.opengl.GLSurfaceView
-        android:id="@+id/gl_surface_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-    <TextView
-        android:id="@+id/change_shape_tv"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:background="#66FFFFFF"
-        android:gravity="center"
-        android:text="类型"/>
 
-    <TextView
-        android:id="@+id/change_angle"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_toLeftOf="@+id/change_shape_tv"
-        android:background="#66FFFFFF"
-        android:gravity="center"
-        android:text="旋转"/>
-    <GridView
-        android:id="@+id/grid_view"
+    <ListView
+        android:id="@+id/function_list"
         android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:layout_alignParentBottom="true"
-        android:background="#ffffff"
-        android:numColumns="4"
-        android:visibility="invisible"/>
-</RelativeLayout>
+        android:layout_height="match_parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
