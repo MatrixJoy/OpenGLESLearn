@@ -1,65 +1,39 @@
 package catnemo.top.opengleslearn
 
 import android.content.Intent
-import android.net.Uri
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.*
-import catnemo.top.opengleslearn.entity.Item
+import android.widget.SimpleAdapter
+import catnemo.top.opengleslearn.javagl.JavaGLImplementationActivity
+import catnemo.top.opengleslearn.nativegl.NativEGLActivity
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var listView: ListView
-    private val SCHEME = "catnemo.top.opengleslearn"
 
-    private val list = listOf(Item("三角形", "$SCHEME://triangle"))
+    private val funMap = mapOf<String, Class<out AppCompatActivity>>(
+            "JavaGL" to JavaGLImplementationActivity::class.java,
+            "nativeGL" to NativEGLActivity::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        listView = findViewById(R.id.list_view)
-        val adapter = Adapter()
-        listView.adapter = adapter
-        listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-            val uri = Uri.parse(list[position].scheme.trim())
-            val i = Intent(Intent.ACTION_VIEW, uri)
-            startActivity(i)
+        title = getString(R.string.home)
+        function_list.divider = resources.getDrawable(R.drawable.divider)
+        function_list.adapter = SimpleAdapter(this, crateFuncationList(), android.R.layout.two_line_list_item,
+                arrayOf("title", "pageclass"), intArrayOf(android.R.id.text2))
+        function_list.setOnItemClickListener { parent, view, position, id ->
+            val clazz = (parent.getItemAtPosition(position) as Map<String, Class<out AppCompatActivity>>)["pageclass"]
+            val intent = Intent(this, clazz)
+            startActivity(intent)
+
         }
     }
 
-    inner class Adapter : BaseAdapter() {
-        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            var view = convertView
-            var holde: ViewHolder = ViewHolder()
-            if (view == null) {
-                view = LayoutInflater.from(this@MainActivity).inflate(android.R.layout.simple_expandable_list_item_1, parent, false)
-                holde.tv = view.findViewById(android.R.id.text1)
-                view.tag = holde
-            } else {
-                holde = (view.tag as ViewHolder)
-            }
-            holde.tv?.text = list[position].name
-
-            return view!!
+    private fun crateFuncationList(): List<Map<String, Class<out AppCompatActivity>>> {
+        val list = ArrayList<Map<String, Class<out AppCompatActivity>>>()
+        for (m in funMap) {
+            list.add(mapOf("title" to m.key, "pageclass" to m.value) as Map<String, Class<out AppCompatActivity>>)
         }
-
-        override fun getItem(position: Int): Any {
-            return list[position]
-        }
-
-        override fun getItemId(position: Int): Long {
-            return position.toLong()
-        }
-
-        override fun getCount(): Int {
-            return list.size
-        }
-
-        inner class ViewHolder {
-            var tv: TextView? = null
-        }
-
+        return list
     }
 }
