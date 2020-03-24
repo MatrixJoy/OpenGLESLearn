@@ -13,11 +13,15 @@ set(GL_CORE gles/EglCore.cpp
         gles/EglSurfaceBase.cpp
         gles/OffScreenSurface.cpp
         gles/WindowSurface.cpp
+        gles/GLUtil.cpp
 
+        GLRender.h
+        GLRender.cpp
         GlCoreJni.h
         GLCoreJni.cpp)
 
 find_library(log-lib log)
+
 
 add_library(glcore
 
@@ -31,6 +35,7 @@ target_link_libraries(
         EGL
 
         android
+
 
         ${log-lib}
 
