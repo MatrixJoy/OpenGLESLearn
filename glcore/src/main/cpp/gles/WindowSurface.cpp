@@ -18,7 +18,6 @@ void WindowSurface::release() {
         if (releaseSurface) {
             ANativeWindow_release(surface);
         }
-        delete surface;
         surface = nullptr;
     }
 }

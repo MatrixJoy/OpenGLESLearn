@@ -7,6 +7,7 @@
 
 #include "log.h"
 #include "GLES3/gl3.h"
+#include "GLES2/gl2ext.h"
 
 /**
  * 编译顶点着色的
@@ -43,6 +44,13 @@ GLuint linkProgram(GLuint vertexShader, GLuint fragmentShader);
  * @param fragmentShader
  * @return 编译链接好的着色器 program
  */
-GLuint bulidProgram(const char *vertexShaderSource, const char *fragmentShaderSource);
+GLuint buildProgram(const char *vertexShaderSource, const char *fragmentShaderSource);
+
+/**
+ * 创建纹理id
+ * @param textureTarget
+ * @return
+ */
+GLuint createTexture(const GLenum textureTarget);
 
 #endif //OPENGLESLEARN_GLUTIL_H

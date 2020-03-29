@@ -17,6 +17,9 @@ set(GL_CORE gles/EglCore.cpp
 
         GLRender.h
         GLRender.cpp
+
+        TxtureProgram.h
+        TxtureProgram.cpp
         GlCoreJni.h
         GLCoreJni.cpp)
 

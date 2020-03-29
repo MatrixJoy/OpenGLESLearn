@@ -82,10 +82,27 @@ GLuint linkProgram(GLuint vertexShader, GLuint fragmentShader) {
     return program;
 }
 
-GLuint bulidProgram(const char *vertexShaderSource, const char *fragmentShaderSource) {
+GLuint buildProgram(const char *vertexShaderSource, const char *fragmentShaderSource) {
     GLuint program;
     GLuint vertexShader = compileVertexShader(vertexShaderSource);
     GLuint frgamnetShader = comileFragmentShader(fragmentShaderSource);
     program = linkProgram(vertexShader, frgamnetShader);
     return program;
+}
+
+GLuint createTexture(const GLenum textureTarget) {
+    GLuint textureId;
+    glGenTextures(1, &textureId);
+    if (textureId == 0) {
+        LOGE("CRATE TEXTURE FILED");
+        return 0;
+    }
+    glBindTexture(textureTarget, textureId);
+    glTexParameterf(textureTarget, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameterf(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(textureTarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(textureTarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glGenerateMipmap(textureTarget);
+    glBindTexture(textureTarget, 0);
+    return textureId;
 }
