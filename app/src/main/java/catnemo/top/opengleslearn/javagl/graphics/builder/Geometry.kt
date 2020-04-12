@@ -1,5 +1,7 @@
 package catnemo.top.opengleslearn.javagl.graphics.builder
 
+import kotlin.math.sqrt
+
 /**
  *
  * @author zhoujunjiang
@@ -24,4 +26,17 @@ class Geometry {
     data class Conde(val center: Point, val radius: Float, val height: Float)
 
     data class Cylinder(val center: Point, val radius: Float, val height: Float)
+
+    data class Vector(val x: Float, val y: Float, val z: Float) {
+        val length: Float = sqrt(x * x + y * y + z * z)
+
+        fun crossProduct(other: Vector) = Vector(
+                (y * other.z) - (z * other.y),
+                (z * other.x) - (x * other.z),
+                (x * other.y) - (y * other.x))
+
+        fun dotProduct(other: Vector) = x * other.x + y * other.y + z * other.z
+
+        fun scale(scale: Float) = Vector(x * scale, y * scale, z * scale)
+    }
 }

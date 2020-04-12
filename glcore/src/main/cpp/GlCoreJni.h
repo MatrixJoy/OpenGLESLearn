@@ -36,6 +36,9 @@ Java_catnemo_top_glcore_GLCore_resize(JNIEnv *env, jobject thiz, jint width, jin
 
 JNIEXPORT void JNICALL
 Java_catnemo_top_glcore_GLCore_performDraw(JNIEnv *env, jobject thiz);
+
+JNIEXPORT void JNICALL
+Java_catnemo_top_glcore_GLCore_setType(JNIEnv *env, jobject thiz, jint type);
 #ifdef __cplusplus
 }
 #endif

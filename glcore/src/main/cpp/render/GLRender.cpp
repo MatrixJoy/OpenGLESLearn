@@ -2,7 +2,7 @@
 // Created by matrixzhou on 2020-03-25.
 //
 
-#include "GLRender.h"
+#include "include/GLRender.h"
 
 GLRender::~GLRender() {
     release();
@@ -36,37 +36,29 @@ bool GLRender::init(EGLContext sharedContext, ANativeWindow *surface, int flags)
 
     windowSurface->makeCurrent();
 
-    textureProgram->onSurfaceCreate();
-
-//    program = buildProgram(vertexShader, fragmentShader);
-//    positionLocation = glGetAttribLocation(program, "a_Position");
+    if (type == 1) {
+        triangleProgram->onSurfaceCreate();
+    } else {
+        textureProgram->onSurfaceCreate();
+    }
 
     return isInit;
 }
 
 void GLRender::resize(GLint width, GLint height) {
-//    glViewport(0, 0, width, height)
+    if (type == 1) {
+        triangleProgram->onSurfaceChanged(width, height);
+        return;
+    }
     textureProgram->onSurfaceChanged(width, height);
 }
 
 void GLRender::drawFrame(float *mtx) {
-
-//    glViewport(0, 0, windowSurface->getWidth(), windowSurface->getHeight());
-//
-//    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-//
-//    glClear(GL_COLOR_BUFFER_BIT);
-//
-//    glUseProgram(program);
-//
-//    glVertexAttribPointer(positionLocation, 2, GL_FLOAT, GL_FALSE, 0, vertexArray);
-//
-//    glEnableVertexAttribArray(positionLocation);
-//
-//    glDrawArrays(GL_TRIANGLES, 0, 3);
-//
-//    glDisableVertexAttribArray(positionLocation);
-    textureProgram->onDrawFrame(mtx);
+    if (type == 1) {
+        triangleProgram->onDrawFrame(mtx);
+    } else {
+        textureProgram->onDrawFrame(mtx);
+    }
     windowSurface->swapBuffers();
 }
 
@@ -76,6 +68,12 @@ GLRender::GLRender() {
 
 TextureProgram *GLRender::getTextureProgram() const {
     return textureProgram;
+}
+
+GLRender::GLRender(int type) : type(type) {
+    if (type == 1) {
+        triangleProgram = new TriangleProgram();
+    }
 }
 
 

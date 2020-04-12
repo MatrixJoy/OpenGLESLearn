@@ -5,8 +5,9 @@
 #ifndef OPENGLESLEARN_TXTUREPROGRAM_H
 #define OPENGLESLEARN_TXTUREPROGRAM_H
 
-#include "gles/include/GLUtil.h"
+#include "../../gles/include/GLUtil.h"
 #include "GLES3/gl3.h"
+#include "TriangleProgram.h"
 
 const char vertexShader[] = "uniform mat4 uMVPMatrix;\n"
                             "uniform mat4 uTexMatrix;\n"

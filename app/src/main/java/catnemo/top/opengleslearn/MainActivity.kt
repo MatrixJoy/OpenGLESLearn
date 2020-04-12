@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.SimpleAdapter
 import catnemo.top.opengleslearn.javagl.JavaGLImplementationActivity
+import catnemo.top.opengleslearn.javagl.particle.ParticleActivity
 import catnemo.top.opengleslearn.nativegl.NativEGLActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -12,7 +13,8 @@ class MainActivity : AppCompatActivity() {
 
     private val funMap = mapOf<String, Class<out AppCompatActivity>>(
             "JavaGL" to JavaGLImplementationActivity::class.java,
-            "nativeGL" to NativEGLActivity::class.java)
+            "nativeGL" to NativEGLActivity::class.java,
+            "粒子系统" to ParticleActivity::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

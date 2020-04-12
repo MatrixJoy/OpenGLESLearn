@@ -10,6 +10,7 @@ object GLCore {
     }
 
     external fun init(shareContext: EGLContext? = null, flag: Int = 0, surface: Surface): Boolean
+    external fun setType(type: Int = 0)
     external fun resize(width: Int, height: Int)
     external fun performDraw();
     external fun release()

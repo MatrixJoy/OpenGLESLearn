@@ -1,5 +1,6 @@
 package catnemo.top.opengleslearn.javagl.graphics
 
+import android.opengl.GLES20
 import catnemo.top.opengleslearn.javagl.gles.program.BaseShaderProgram
 import java.lang.RuntimeException
 
@@ -41,6 +42,8 @@ abstract class Graphics<T : BaseShaderProgram> {
 
 
     fun init(width: Int, height: Int) {
+        GLES20.glViewport(0, 0, width, height)
+
         mSurfaceWidth = width
         mSurfaceHeight = height
         program.init()
@@ -51,6 +54,12 @@ abstract class Graphics<T : BaseShaderProgram> {
 
     fun putVertexArray(vertexArray: FloatArray) {
         vertex = VertexArray(vertexArray)
+    }
+
+    fun onSizeChanged(width: Int, height: Int) {
+        GLES20.glViewport(0, 0, width, height)
+        mSurfaceHeight = height
+        mSurfaceWidth = width
     }
 
     fun draw(mtx: FloatArray) {

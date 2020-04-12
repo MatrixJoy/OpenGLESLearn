@@ -9,17 +9,18 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-rtti  -Wall")
 
 include_directories(gles/include/)
 
+include_directories(render/include/)
+
 set(GL_CORE gles/EglCore.cpp
         gles/EglSurfaceBase.cpp
         gles/OffScreenSurface.cpp
         gles/WindowSurface.cpp
         gles/GLUtil.cpp
 
-        GLRender.h
-        GLRender.cpp
+        render/GLRender.cpp
 
-        TxtureProgram.h
-        TxtureProgram.cpp
+        render/TriangleProgram.cpp
+        render/TxtureProgram.cpp
         GlCoreJni.h
         GLCoreJni.cpp)
 

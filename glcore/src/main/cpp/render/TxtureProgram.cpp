@@ -2,8 +2,8 @@
 // Created by matrixzhou on 2020/3/28.
 //
 
-#include "TxtureProgram.h"
-#include "gles/include/GLUtil.h"
+#include "include/TxtureProgram.h"
+#include "GLUtil.h"
 
 void TextureProgram::onSurfaceCreate() {
     program = buildProgram(vertexShader, fragShaderOes);

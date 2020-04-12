@@ -9,13 +9,13 @@ import android.view.SurfaceHolder
 import catnemo.top.glcore.GLCore
 import catnemo.top.opengleslearn.R
 import kotlinx.android.synthetic.main.activity_nativ_egl.*
-import javax.microedition.khronos.opengles.GL
 
 class NativEGLActivity : AppCompatActivity() {
 
     private var mediaPlayer: MediaPlayer? = null
     private var surfaceTexture: SurfaceTexture? = null
 
+    private val type = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nativ_egl)
@@ -30,8 +30,13 @@ class NativEGLActivity : AppCompatActivity() {
             }
 
             override fun surfaceCreated(holder: SurfaceHolder?) {
+                GLCore.setType(type)
                 holder?.let {
                     GLCore.init(null, 0, holder.surface)
+                }
+                if (type == 1) {
+                    GLCore.performDraw()
+                    return
                 }
                 surfaceTexture = GLCore.createSurfaceTexture()
                 val surface = Surface(surfaceTexture)

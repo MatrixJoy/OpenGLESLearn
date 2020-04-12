@@ -30,7 +30,7 @@ class BaseGLRender : GLSurfaceView.Renderer {
     private var mSurfaceHeight: Int = 0
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
-        GLES20.glViewport(0, 0, width, height)
+        mGraphics?.onSizeChanged(width, height)
         mSurfaceWidth = width
         mSurfaceHeight = height
     }

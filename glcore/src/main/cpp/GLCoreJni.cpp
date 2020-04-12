@@ -3,7 +3,7 @@
 //
 
 #include "android/native_window_jni.h"
-#include "GLRender.h"
+#include "render/include/GLRender.h"
 #include "memory.h"
 #include "GlCoreJni.h"
 
@@ -17,11 +17,12 @@ typedef struct a_surface_texture {
 ASurfaceTexture aSurfaceTexture;
 
 GLRender *glRender;
+int type = 0;
 
 extern "C" jboolean
 Java_catnemo_top_glcore_GLCore_init(JNIEnv *env, jobject /*this*/, jobject sharcontext, jint flag,
                                     jobject surface) {
-    glRender = new GLRender();
+    glRender = new GLRender(type);
 
     ANativeWindow *aNativeWindow = ANativeWindow_fromSurface(env, surface);
     bool isIinit = glRender->init(sharcontext, aNativeWindow, flag);
@@ -35,6 +36,10 @@ extern "C" void Java_catnemo_top_glcore_GLCore_release(JNIEnv *env, jobject) {
         delete glRender;
         glRender = nullptr;
     }
+
+    if (type == 1) {
+        return;
+    }
     env->DeleteGlobalRef(aSurfaceTexture.surfaceTextureObj);
     env->DeleteGlobalRef(aSurfaceTexture.surfaceClass);
 
@@ -42,6 +47,9 @@ extern "C" void Java_catnemo_top_glcore_GLCore_release(JNIEnv *env, jobject) {
 
 extern "C" jobject
 Java_catnemo_top_glcore_GLCore_createSurfaceTexture(JNIEnv *env, jobject/*this*/) {
+    if (type == 1) {
+        return nullptr;
+    }
     jclass clz = env->FindClass("android/graphics/SurfaceTexture");
     jmethodID constructId = env->GetMethodID(clz, "<init>", "(I)V");
     GLuint textureId = glRender->getTextureProgram()->generateTexture(GL_TEXTURE_EXTERNAL_OES);
@@ -56,12 +64,15 @@ Java_catnemo_top_glcore_GLCore_createSurfaceTexture(JNIEnv *env, jobject/*this*/
 JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved) {
     JNIEnv *env;
 
-    memset(&aSurfaceTexture, 0, sizeof(aSurfaceTexture));
 
     if (vm->GetEnv(reinterpret_cast<void **>(&env), JNI_VERSION_1_6) != JNI_OK) {
         return JNI_ERR;
     }
-    aSurfaceTexture.vm = vm;
+    if (type != 1) {
+        memset(&aSurfaceTexture, 0, sizeof(aSurfaceTexture));
+        aSurfaceTexture.vm = vm;
+    }
+
 
     return JNI_VERSION_1_6;
 }
@@ -73,6 +84,10 @@ Java_catnemo_top_glcore_GLCore_resize(JNIEnv *env, jobject thiz, jint width, jin
 
 extern "C" void
 Java_catnemo_top_glcore_GLCore_performDraw(JNIEnv *env, jobject thiz) {
+    if (type == 1) {
+        glRender->drawFrame(const_cast<float *>(indentityMatrix));
+        return;
+    }
     jmethodID mid = env->GetMethodID(aSurfaceTexture.surfaceClass, "updateTexImage", "()V");
     env->CallVoidMethod(aSurfaceTexture.surfaceTextureObj, mid);
     jmethodID mmid = env->GetMethodID(aSurfaceTexture.surfaceClass, "getTransformMatrix",
@@ -82,4 +97,8 @@ Java_catnemo_top_glcore_GLCore_performDraw(JNIEnv *env, jobject thiz) {
     env->CallVoidMethod(aSurfaceTexture.surfaceTextureObj, mmid, array);
     env->GetFloatArrayRegion(array, 0, 16, mtx);
     glRender->drawFrame(mtx);
+}
+
+extern "C" void Java_catnemo_top_glcore_GLCore_setType(JNIEnv *env, jobject thiz, jint _type) {
+    type = _type;
 }

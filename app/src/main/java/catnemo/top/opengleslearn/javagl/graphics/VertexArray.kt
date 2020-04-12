@@ -28,4 +28,10 @@ class VertexArray(vertexArray: FloatArray) {
         GLES20.glEnableVertexAttribArray(localPosition)
         vertexBuffer.position(0)
     }
+
+    fun updateBuffer(floatArray: FloatArray, start: Int, count: Int) {
+        vertexBuffer.position(start)
+        vertexBuffer.put(floatArray, start, count)
+        vertexBuffer.position(0)
+    }
 }
